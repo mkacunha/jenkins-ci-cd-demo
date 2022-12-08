@@ -6,6 +6,7 @@ pipeline {
     stage('first') {
         steps {
             echo 'Hello world'
+            echo "${env.TYPE}"
         }
     }
 
