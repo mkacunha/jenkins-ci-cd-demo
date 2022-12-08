@@ -6,7 +6,7 @@ pipeline {
         DELIVERY_BUILD_TYPE = 'DELIVERY'
     }
 
-    if (PULL_REQUEST_BUILD_TYPE == env.TYPE) {
+    if ("$PULL_REQUEST_BUILD_TYPE" == "${env.TYPE}") {
         stages {
 
             stage('first') {
@@ -19,7 +19,7 @@ pipeline {
         }
     }
 
-    if (DELIVERY_BUILD_TYPE == env.TYPE) {
+    if ("$DELIVERY_BUILD_TYPE" == "$env.TYPE") {
         stages {
             stage('first') {
                 steps {
@@ -30,5 +30,4 @@ pipeline {
             }
         }
     }
-
 }
