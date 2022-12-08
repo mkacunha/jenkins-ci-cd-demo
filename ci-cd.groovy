@@ -1,21 +1,34 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
+    environment {
+        PULL_REQUEST_BUILD_TYPE = 'PULL REQUEST'
+        DELIVERY_BUILD_TYPE = 'DELIVERY'
+    }
 
-    stage('first') {
-        steps {
-            echo 'Hello world'
-            echo "${env.TYPE}"
-            echo "${status.STARTED}"
+    if (PULL_REQUEST_BUILD_TYPE == env.TYPE) {
+        stages {
+
+            stage('first') {
+                steps {
+                    echo 'Hello world pull request'
+                    echo "${env.TYPE}"
+                    echo "${status.STARTED}"
+                }
+            }
         }
     }
-  }  
 
-    class status {
-        final String STARTED = "STARTED"
-        final String SUCCESS = "SUCCESS"
-        final String FAILURE = "FAILURE"
-        final String ABORTED = "ABORTED"
+    if (DELIVERY_BUILD_TYPE == env.TYPE) {
+        stages {
+            stage('first') {
+                steps {
+                    echo 'Hello world delivery'
+                    echo "${env.TYPE}"
+                    echo "${status.STARTED}"
+                }
+            }
+        }
     }
+
 }
