@@ -1,3 +1,5 @@
+def jenkinsFile = ''
+
 pipeline {
     agent any
 
@@ -10,7 +12,7 @@ pipeline {
                 }
 
                 script {
-                    def jenkinsFile = 'file'
+                    jenkinsFile = 'file'
                     echo "$jenkinsFile"
                 }
             }
