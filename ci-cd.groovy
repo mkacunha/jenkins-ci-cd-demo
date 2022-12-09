@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    organization = env.ORGANIZATION
-    repository = env.REPOSITORY
-    branch = env.BRANCH
+    String organization = env.ORGANIZATION
+    String repository = env.REPOSITORY
+    String branch = env.BRANCH
 
     stages {
         stage('clone') {
