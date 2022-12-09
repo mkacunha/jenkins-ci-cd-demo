@@ -39,44 +39,70 @@ pipeline {
             steps {
                 script {
                     newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
-                    echo "docker image $newDockerImgage created"
+                    echo "docker image $newDockerImgage builded"
                 }
+                echo "docker push $newDockerImgage"
             }
         }
 
         stage('deploy QA') {
             steps {
-                echo 'foi'
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
             }
         }
 
         stage('QA acceptance test') {
             steps {
-                echo 'foi'
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("QA")
+
+                    if (testsResult) {
+                        echo "successfully executed QA acceptance test"
+                    } else {
+                        error "error running QA acceptance tests"
+                    }
+                    
+                }
             }
         }
 
         stage('deploy SANDBOX') {
             steps {
-                echo 'foi'
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
             }
         }
 
         stage('SANDBOX acceptance test') {
             steps {
-                echo 'foi'
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("SANDBOX")
+
+                    if (testsResult) {
+                        echo "successfully executed SANDBOX acceptance test"
+                    } else {
+                        error "error running SANDBOX acceptance tests"
+                    }                    
+                }
             }
         }
 
         stage('deploy PROD') {
             steps {
-                echo 'foi'
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
             }
         }
 
         stage('PROD acceptance test') {
             steps {
-                echo 'foi'
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("PROD")
+
+                    if (testsResult) {
+                        echo "successfully executed PROD acceptance test"
+                    } else {
+                        error "error running PROD acceptance tests"
+                    }                    
+                }
             }
         }
 
