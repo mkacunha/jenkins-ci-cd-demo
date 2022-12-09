@@ -1,5 +1,4 @@
 node {
-
     stages {
         stage('clone') {
             steps {
