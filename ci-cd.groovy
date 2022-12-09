@@ -1,8 +1,6 @@
 pipeline {
     agent any
 
-    def jenkinsFile
-    
     stages {
         stage('clone') {
             steps {
@@ -10,12 +8,16 @@ pipeline {
                     sh 'rm -rf gradle-release-tag-demo'
                     sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                 }
+
+                script {
+                    def jenkinsFile = 'file'
+                }
             }
         }
 
         stage('check pull request') {
             steps {
-                echo 'foi'
+                echo "foi -> $jenkinsFile"
             }
         }
 
