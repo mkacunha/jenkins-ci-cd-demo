@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
-    }
+    // parameters {
+    //     string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
+    // }
 
     // stages {
     //     stage('clone') {
@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('clone') {
            steps {
-             echo "${STATEMENT}"
+             echo "oiiiiii"
            }
         }
     }
