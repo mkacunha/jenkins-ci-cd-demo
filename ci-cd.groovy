@@ -37,8 +37,10 @@ pipeline {
 
         stage('build docker image') {
             steps {
-                newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
-                echo "docker image $newDockerImgage created"
+                script {
+                    newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
+                    echo "docker image $newDockerImgage created"
+                }
             }
         }
 
