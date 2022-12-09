@@ -13,7 +13,7 @@ pipeline {
 
                 script {
                     sh 'ls ./$REPOSITORY'
-                    cat './$REPOSITORY/Jenkinsfile'
+                    sh 'cat ./$REPOSITORY/Jenkinsfile'
 
                     appCommand = load "./$REPOSITORY/Jenkinsfile"
                 }
