@@ -11,6 +11,7 @@ pipeline {
 
                 script {
                     def jenkinsFile = 'file'
+                    echo "$jenkinsFile"
                 }
             }
         }
