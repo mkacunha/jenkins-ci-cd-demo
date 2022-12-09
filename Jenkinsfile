@@ -1,5 +1,10 @@
 pipeline {
   agent any
+       
+  parameters {
+    string(name: 'ORGANIZATION', defaultValue: 'mkacunha')
+  }
+
   stages {
     stage('clone') {
       steps {
@@ -8,11 +13,5 @@ pipeline {
         echo "$BRANCH"
       }
     }
-
-  }
-  parameters {
-    string(name: 'ORGANIZATION', defaultValue: 'mkacunha')
-    string(name: 'REPOSITORY', defaultValue: 'gradle-release-tag-demo')
-    string(name: 'BRANCH', defaultValue: 'master')
   }
 }
