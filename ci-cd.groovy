@@ -14,7 +14,7 @@ pipeline {
 
                 script {
                     applicationScripts = load "./$REPOSITORY/Jenkinsfile"
-                    PWD = "./$REPOSITORY"
+                    env.PWD = "./$REPOSITORY"
                 }
             }
         }
