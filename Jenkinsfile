@@ -10,9 +10,9 @@ pipeline {
   stages {
     stage('clone') {
       steps {
-        echo '$ORGANIZATION'
-        echo '$REPOSITORY'
-        echo '$BRANCH'
+        echo "$ORGANIZATION"
+        echo "$REPOSITORY"
+        echo "$BRANCH"
       }
     }
   }
