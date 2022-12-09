@@ -1,7 +1,4 @@
-def branch = "master"
-
-pipeline {
-    agent any
+node {
 
     stages {
         stage('clone') {
