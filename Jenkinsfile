@@ -2,15 +2,18 @@ pipeline {
   agent any
        
   parameters {
-    string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
+    string(name: 'ORGANIZATION', defaultValue: 'mkacunha')
+    string(name: 'REPOSITORY', defaultValue: 'gradle-release-tag-demo')
+    string(name: 'BRANCH', defaultValue: 'master')
   }
 
   stages {
-    stage('Test') {
+    stage('clone') {
       steps {
-        sh 'echo "oiii"'
+        echo '$ORGANIZATION'
+        echo '$REPOSITORY'
+        echo '$BRANCH'
       }
     }
-
   }
 }
