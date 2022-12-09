@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    def jenkinsFile
+    
     stages {
         stage('clone') {
             steps {
