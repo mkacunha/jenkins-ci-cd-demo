@@ -1,5 +1,6 @@
 def applicationScripts
 def newApplicationVersion
+def newDockerImgage
 
 pipeline {
     agent any
@@ -29,14 +30,15 @@ pipeline {
             steps {
                 script {
                     newApplicationVersion = applicationScripts.createTag()
-                    echo 'tag $newApplicationVersion created'
+                    echo "tag $newApplicationVersion created"
                 }
             }
         }
 
         stage('build docker image') {
             steps {
-                echo 'foi'
+                newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
+                echo "docker image $newDockerImgage created"
             }
         }
 
