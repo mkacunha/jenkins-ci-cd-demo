@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('first') {
+        stage('clone') {
             steps {
-                echo 'Hello world pull request'
-                echo "${env.ORGANIZATION}"
-                echo "${env.REPOSITORY}"
+                withCredentials([usernamePassword(credentialsId: 'github-mkacunha', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh "git clone --branch main --single-branch https://${USERNAME}:${PASSWORD}@github.com/${env.ORGANIZATION}/${env.REPOSITORY}.git ${env.REPOSITORY}"
+                    sh "ls"
+                }
             }
         }
     }
