@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    def organization = env.ORGANIZATION
-    def repository = env.REPOSITORY
-    def branch = env.BRANCH
-
     parameters {
         string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
     }
