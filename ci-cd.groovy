@@ -1,5 +1,5 @@
 node {
-    stages {
+    
         stage('clone') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -68,5 +68,4 @@ node {
                 echo 'foi'
             }
         }
-    }
 }
