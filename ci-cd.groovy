@@ -5,7 +5,7 @@ pipeline {
         stage('clone') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha', passwordVariable: 'password', usernameVariable: 'username')]) {
-                    sh 'git clone --branch $branch --single-branch https://$username:$password@github.com/${env.ORAGANIZATION}/${env.REPOSITORY}.git ${env.REPOSITORY}'
+                    sh 'git clone --branch master --single-branch https://$username:$password@github.com/mkacunha/gradle-release-tag-demo.git gradle-release-tag-demo'
                     sh "ls"
                 }
             }
