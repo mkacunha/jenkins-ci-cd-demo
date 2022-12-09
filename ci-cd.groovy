@@ -1,11 +1,11 @@
 pipeline {
     agent any
 
+    def organization = env.ORGANIZATION
+    def repository = env.REPOSITORY
+    def branch = env.BRANCH
+
     stages {
-        def organization = env.ORGANIZATION
-        def repository = env.REPOSITORY
-        def branch = env.BRANCH
-        
         stage('clone') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha', passwordVariable: 'password', usernameVariable: 'username')]) {
