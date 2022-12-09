@@ -1,5 +1,5 @@
 def applicationScripts
-def newVersion
+def newApplicationVersion
 
 pipeline {
     agent any
@@ -30,8 +30,8 @@ pipeline {
         stage('tag') {
             steps {
                 script {
-                    newVersion = applicationScripts.createTag()
-                    echo "nova versão ${newVersion}"
+                    newApplicationVersion = applicationScripts.createTag()
+                    echo 'tag $newApplicationVersion created'
                 }
             }
         }
