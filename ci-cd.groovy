@@ -1,11 +1,11 @@
 pipeline {
     agent any
 
-    String organization = env.ORGANIZATION
-    String repository = env.REPOSITORY
-    String branch = env.BRANCH
-
     stages {
+        String organization = env.ORGANIZATION
+        String repository = env.REPOSITORY
+        String branch = env.BRANCH
+        
         stage('clone') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha', passwordVariable: 'password', usernameVariable: 'username')]) {
