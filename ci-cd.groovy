@@ -1,4 +1,5 @@
-def appCommand
+def applicationScripts
+def newVersion
 
 pipeline {
     agent any
@@ -15,7 +16,7 @@ pipeline {
                     sh 'ls ./$REPOSITORY'
                     sh 'cat ./$REPOSITORY/Jenkinsfile'
 
-                    appCommand = load "./$REPOSITORY/Jenkinsfile"
+                    applicationScripts = load "./$REPOSITORY/Jenkinsfile"
                 }
             }
         }
@@ -28,7 +29,10 @@ pipeline {
 
         stage('tag') {
             steps {
-                echo 'foi'
+                script {
+                    newVersion = applicationScripts.createTag()
+                    echo "nova versão ${newVersion}"
+                }
             }
         }
 
