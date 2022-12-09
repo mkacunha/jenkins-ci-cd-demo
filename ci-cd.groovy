@@ -17,7 +17,7 @@ pipeline {
 
         stage('check pull request') {
             steps {
-                echo "foi -> $jenkinsFile"
+                echo "foi"
             }
         }
 
