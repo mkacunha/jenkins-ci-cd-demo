@@ -12,15 +12,17 @@ pipeline {
                 }
 
                 script {
-                    appCommand = load "$REPOSITORY/Jenkinsfile"
-                    echo "$appCommand"
+                    sh 'ls ./$REPOSITORY'
+                    cat './$REPOSITORY/Jenkinsfile'
+
+                    appCommand = load "./$REPOSITORY/Jenkinsfile"
                 }
             }
         }
 
         stage('check pull request') {
             steps {
-                echo "foi $appCommand"
+                echo "foi"
             }
         }
 
