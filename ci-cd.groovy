@@ -3,6 +3,11 @@ def jenkinsFile = ''
 pipeline {
     agent any
 
+    script {
+        jenkinsFile = 'file'
+        echo "$jenkinsFile"
+    }
+
     stages {
         stage('clone') {
             steps {
@@ -11,10 +16,7 @@ pipeline {
                     sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                 }
 
-                script {
-                    jenkinsFile = 'file'
-                    echo "$jenkinsFile"
-                }
+
             }
         }
 
