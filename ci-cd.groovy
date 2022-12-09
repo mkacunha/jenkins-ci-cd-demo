@@ -13,10 +13,8 @@ pipeline {
                 }
 
                 script {
-                    sh 'ls ./$REPOSITORY'
-                    sh 'cat ./$REPOSITORY/Jenkinsfile'
-
                     applicationScripts = load "./$REPOSITORY/Jenkinsfile"
+                    PWD = "./$REPOSITORY"
                 }
             }
         }
