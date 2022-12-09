@@ -1,4 +1,4 @@
-def jenkinsFile = ''
+def appCommand = ''
 
 pipeline {
     agent any
@@ -12,7 +12,11 @@ pipeline {
                 }
 
                 script {
-                    jenkinsFile = 'file'
+                    def currentPath = pwd
+                    echo "$currentPath"
+                    env.PWD = "$currentPath/$REPOSITORY"
+                    echo "$PWD"
+                    appCommand = 'file'
                     echo "$jenkinsFile"
                 }
             }
@@ -20,7 +24,7 @@ pipeline {
 
         stage('check pull request') {
             steps {
-                echo "foi $jenkinsFile"
+                echo "foi $appCommand"
             }
         }
 
