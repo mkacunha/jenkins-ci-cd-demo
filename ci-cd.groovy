@@ -17,7 +17,7 @@ pipeline {
                     env.PWD = "$currentPath/$REPOSITORY"
                     echo "$PWD"
                     appCommand = 'file'
-                    echo "$jenkinsFile"
+                    echo "$appCommand"
                 }
             }
         }
