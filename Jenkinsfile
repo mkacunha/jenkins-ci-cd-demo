@@ -10,9 +10,10 @@ pipeline {
   stages {
     stage('clone') {
       steps {
-        echo '$ORGANIZATION'
-        echo '$REPOSITORY'
-        echo '$BRANCH'
+        withCredentials([usernamePassword(credentialsId: 'github-mkacunha', passwordVariable: 'USERNAME', usernameVariable: 'USERNAME')]) {
+          sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$USERNAME@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
+          sh "ls"
+        }
       }
     }
   }
