@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Hello world pull request'
                 echo "${env.ORGANIZATION}"
-                echo "${status.REPOSITORY}"
+                echo "${env.REPOSITORY}"
             }
         }
     }
