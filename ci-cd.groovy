@@ -1,7 +1,9 @@
 pipeline {
     node() {
-        stage('foi') {
-            echo 'foiii'
+        stages {
+            stage('foi') {
+                echo 'foiii'
+            }
         }
     }
 }
