@@ -1,4 +1,4 @@
-def appCommand = ''
+def appCommand
 
 pipeline {
     agent any
@@ -12,11 +12,7 @@ pipeline {
                 }
 
                 script {
-                    def currentPath = pwd
-                    echo "$currentPath"
-                    env.PWD = "$currentPath/$REPOSITORY"
-                    echo "$PWD"
-                    appCommand = 'file'
+                    appCommand = load "$REPOSITORY/Jenkinsfile"
                     echo "$appCommand"
                 }
             }
