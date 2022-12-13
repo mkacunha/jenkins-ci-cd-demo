@@ -35,7 +35,7 @@ pipeline {
                         def lastTagValue = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true)
                         
                         if (lastTagCommitId != lastBranchCommitId) {
-                            echo "$lastTagValue"
+                            echo "${lastTagValue.trim()}"
                             def lastTagValueSplited = lastTagValue.split('.')
                             echo "$lastTagValueSplited"
                             def minorVersionIndex = lastTagValueSplited.size() - 1
