@@ -41,11 +41,16 @@ pipeline {
                             def newTagVersion = lastTagValueSplited.join(".")
 
                             sh("git tag -a $newTagVersion -m 'Jenkins'")
-                            sh 'git tag'
                             echo "tag $newTagVersion created"
                         } else {
                             echo "there were no changes, tag to be delivered: $lastTagValue"
                         }                        
+                    }
+                }
+
+                withCredentials([gitUsernamePassword(credentialsId: 'github-mkacunha', gitToolName: 'git-tool')]) {
+                    dir(env.PWD) {
+                        sh "git push origin --tags"
                     }
                 }
             }
