@@ -33,8 +33,14 @@ pipeline {
                         def lastTagCommitId = sh(script: 'git rev-list --tags --max-count=1', returnStdout: true)
                         def lastBranchCommitId = sh(script:'git rev-parse HEAD', returnStdout: true)
                         
-                        echo "tag id $lastTagCommitId"
-                        echo "branch id $lastBranchCommitId"
+                        if (lastTagCommitId != lastBranchCommitId) {
+                            echo "tag id $lastTagCommitId"
+                            echo "branch id $lastBranchCommitId"
+                            echo "precisa gerar nova TAG"
+                        } else {
+                            echo "não precisa gerar nova TAG"
+                        }
+                        
                     }
                 }
             }
