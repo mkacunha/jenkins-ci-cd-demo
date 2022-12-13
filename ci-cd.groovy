@@ -35,24 +35,17 @@ pipeline {
                         def lastTagValue = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true).toString().trim()
                         
                         if (lastTagCommitId != lastBranchCommitId) {
-                            echo "${lastTagValue.trim()}"
                             def lastTagValueSplited = lastTagValue.split("\\.")
-                            echo "$lastTagValueSplited"
                             def minorVersionIndex = lastTagValueSplited.size() - 1
-                            echo "$minorVersionIndex"
                             lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex].toInteger() + 1
-                            echo "$lastTagValueSplited"
                             def newTagVersion = lastTagValueSplited.join(".")
-                            echo "$newTagVersion"
-                            
-                            echo "tag id $lastTagCommitId"
-                            echo "branch id $lastBranchCommitId"
-                            echo "precisa gerar nova TAG. Tag atual: $lastTagValue"
-                            echo "Nova TAG gerada: $newTagVersion"
+
+                            sh 'git tag -a $newTagVersion -m "new version"'
+                            sh 'git tag'
+                            echo "tag $newTagVersion created"
                         } else {
-                            echo "não precisa gerar nova TAG: $lastTagValue"
-                        }
-                        
+                            echo "there were no changes, tag to be delivered: $lastTagValue"
+                        }                        
                     }
                 }
             }
