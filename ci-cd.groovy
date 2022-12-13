@@ -32,7 +32,7 @@ pipeline {
                     script {                            
                         def lastTagCommitId = sh(script: 'git rev-list --tags --max-count=1', returnStdout: true)
                         def lastBranchCommitId = sh(script:'git rev-parse HEAD', returnStdout: true)
-                        def lastTagValue = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true)
+                        def lastTagValue = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true).trim()
                         
                         if (lastTagCommitId != lastBranchCommitId) {
                             echo "${lastTagValue.trim()}"
