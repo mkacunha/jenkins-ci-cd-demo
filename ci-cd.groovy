@@ -9,8 +9,6 @@ pipeline {
         stage('clone') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'git config --global credential.helper cache'
-                    sh 'git config --global push.default simple'
                     sh 'rm -rf gradle-release-tag-demo'
                     sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                 }
@@ -31,86 +29,12 @@ pipeline {
         stage('tag') {
             steps {
                 script {
-                    newApplicationVersion = applicationScripts.createTag()
-                    echo "tag $newApplicationVersion created"
-                }
-            }
-        }
-
-        stage('build docker image') {
-            steps {
-                script {
-                    newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
-                    echo "docker image $newDockerImgage builded"
-                }
-                echo "docker push $newDockerImgage"
-            }
-        }
-
-        stage('deploy QA') {
-            steps {
-                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
-            }
-        }
-
-        stage('QA acceptance test') {
-            steps {
-                script {
-                    def testsResult = applicationScripts.runAcceptanceTest("QA")
-
-                    if (testsResult) {
-                        echo "successfully executed QA acceptance test"
-                    } else {
-                        error "error running QA acceptance tests"
-                    }
+                    def lastTagCommitId = sh 'git rev-list --tags --max-count=1'
+                    def lastBranchCommitId = sh 'git rev-parse HEAD'
                     
+                    echo "tag id $lastTagCommitId"
+                    echo "branch id $lastBranchCommitId"
                 }
-            }
-        }
-
-        stage('deploy SANDBOX') {
-            steps {
-                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
-            }
-        }
-
-        stage('SANDBOX acceptance test') {
-            steps {
-                script {
-                    def testsResult = applicationScripts.runAcceptanceTest("SANDBOX")
-
-                    if (testsResult) {
-                        echo "successfully executed SANDBOX acceptance test"
-                    } else {
-                        error "error running SANDBOX acceptance tests"
-                    }                    
-                }
-            }
-        }
-
-        stage('deploy PROD') {
-            steps {
-                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
-            }
-        }
-
-        stage('PROD acceptance test') {
-            steps {
-                script {
-                    def testsResult = applicationScripts.runAcceptanceTest("PROD")
-
-                    if (testsResult) {
-                        echo "successfully executed PROD acceptance test"
-                    } else {
-                        error "error running PROD acceptance tests"
-                    }                    
-                }
-            }
-        }
-
-        stage('complete pull request') {
-            steps {
-                echo 'foi'
             }
         }
     }

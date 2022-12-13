@@ -1,3 +1,7 @@
+def applicationScripts
+def newApplicationVersion
+def newDockerImgage
+
 pipeline {
     agent any
 
@@ -8,60 +12,97 @@ pipeline {
                     sh 'rm -rf gradle-release-tag-demo'
                     sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                 }
+
+                script {
+                    applicationScripts = load "./$REPOSITORY/Jenkinsfile"
+                    env.PWD = "./$REPOSITORY"
+                }
             }
         }
 
         stage('check pull request') {
             steps {
-                echo 'foi'
+                echo "foi"
             }
         }
 
         stage('tag') {
             steps {
-                echo 'foi'
+                script {
+                    newApplicationVersion = applicationScripts.createTag()
+                    echo "tag $newApplicationVersion created"
+                }
             }
         }
 
         stage('build docker image') {
             steps {
-                echo 'foi'
+                script {
+                    newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
+                    echo "docker image $newDockerImgage builded"
+                }
+                echo "docker push $newDockerImgage"
             }
         }
 
         stage('deploy QA') {
             steps {
-                echo 'foi'
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
             }
         }
 
         stage('QA acceptance test') {
             steps {
-                echo 'foi'
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("QA")
+
+                    if (testsResult) {
+                        echo "successfully executed QA acceptance test"
+                    } else {
+                        error "error running QA acceptance tests"
+                    }
+                    
+                }
             }
         }
 
         stage('deploy SANDBOX') {
             steps {
-                echo 'foi'
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
             }
         }
 
         stage('SANDBOX acceptance test') {
             steps {
-                echo 'foi'
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("SANDBOX")
+
+                    if (testsResult) {
+                        echo "successfully executed SANDBOX acceptance test"
+                    } else {
+                        error "error running SANDBOX acceptance tests"
+                    }                    
+                }
             }
         }
 
         stage('deploy PROD') {
             steps {
-                echo 'foi'
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
             }
         }
 
         stage('PROD acceptance test') {
             steps {
-                echo 'foi'
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("PROD")
+
+                    if (testsResult) {
+                        echo "successfully executed PROD acceptance test"
+                    } else {
+                        error "error running PROD acceptance tests"
+                    }                    
+                }
             }
         }
 
