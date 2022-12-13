@@ -37,7 +37,7 @@ pipeline {
                 script {
                     newApplicationVersion = applicationScripts.createTag()
                     echo "tag $newApplicationVersion created"
-                    sh 'git push origin $newApplicationVersion'
+                    sh "git push origin $newApplicationVersion"
                 }
 
                 dir(env.PWD) {
