@@ -36,9 +36,13 @@ pipeline {
                         
                         if (lastTagCommitId != lastBranchCommitId) {
                             def lastTagValueSplited = lastTagValue.split('.')
+                            echo "$lastTagValueSplited"
                             def minorVersionIndex = lastTagValueSplited.size() - 1
+                            echo "$minorVersionIndex"
                             lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex] + 1
+                            echo "$lastTagValueSplited"
                             def newTagVersion = lastTagValueSplited.toString() 
+                            echo "$newTagVersion"
                             
                             echo "tag id $lastTagCommitId"
                             echo "branch id $lastBranchCommitId"
