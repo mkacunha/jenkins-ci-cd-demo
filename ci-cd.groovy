@@ -30,8 +30,8 @@ pipeline {
             steps {
                 dir(env.PWD) {
                     script {                            
-                        def lastTagCommitId = sh('git rev-list --tags --max-count=1', returnStdout: true).trim()
-                        def lastBranchCommitId = sh('git rev-parse HEAD', returnStdout: true).trim()
+                        def lastTagCommitId = sh('git rev-list --tags --max-count=1')
+                        def lastBranchCommitId = sh('git rev-parse HEAD')
                         
                         echo "tag id $lastTagCommitId"
                         echo "branch id $lastBranchCommitId"
