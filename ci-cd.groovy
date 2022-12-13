@@ -9,6 +9,8 @@ pipeline {
         stage('clone') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'git config --global credential.helper cache'
+                    sh 'git config --global push.default simple'
                     sh 'rm -rf gradle-release-tag-demo'
                     sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                 }
@@ -35,6 +37,7 @@ pipeline {
                 script {
                     newApplicationVersion = applicationScripts.createTag()
                     echo "tag $newApplicationVersion created"
+                    sh 'git push origin $newApplicationVersion'
                 }
 
                 dir(env.PWD) {
