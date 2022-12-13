@@ -28,12 +28,14 @@ pipeline {
 
         stage('tag') {
             steps {
-                script {
-                    def lastTagCommitId = sh 'git rev-list --tags --max-count=1'
-                    def lastBranchCommitId = sh 'git rev-parse HEAD'
-                    
-                    echo "tag id $lastTagCommitId"
-                    echo "branch id $lastBranchCommitId"
+                dir(env.PWD) {
+                    script {                            
+                        def lastTagCommitId = sh 'git rev-list --tags --max-count=1'
+                        def lastBranchCommitId = sh 'git rev-parse HEAD'
+                        
+                        echo "tag id $lastTagCommitId"
+                        echo "branch id $lastBranchCommitId"
+                    }
                 }
             }
         }
