@@ -33,12 +33,14 @@ pipeline {
                         def lastTagCommitId = sh(script: 'git rev-list --tags --max-count=1', returnStdout: true)
                         def lastBranchCommitId = sh(script:'git rev-parse HEAD', returnStdout: true)
                         def lastTagValue = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true).toString().trim()
-                        
+                        newApplicationVersion = lastTagValue
+
                         if (lastTagCommitId != lastBranchCommitId) {
                             def lastTagValueSplited = lastTagValue.split("\\.")
                             def minorVersionIndex = lastTagValueSplited.size() - 1
                             lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex].toInteger() + 1
                             def newTagVersion = lastTagValueSplited.join(".")
+                            newApplicationVersion = newTagVersion
 
                             sh("git tag -a $newTagVersion -m 'Jenkins'")
                             echo "tag $newTagVersion created"
@@ -59,8 +61,6 @@ pipeline {
         stage('build docker image') {
             steps {
                 script {
-                    def lastTagCommitId = sh(script: 'git rev-list --tags --max-count=1', returnStdout: true)
-                    newApplicationVersion = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true).toString().trim()
                     newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
                     echo "docker image $newDockerImgage builded"
                 }
