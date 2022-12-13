@@ -40,7 +40,7 @@ pipeline {
                             lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex].toInteger() + 1
                             def newTagVersion = lastTagValueSplited.join(".")
 
-                            sh 'git tag -a $newTagVersion -m "new version"'
+                            sh("git tag -a $newTagVersion -m 'Jenkins'")
                             sh 'git tag'
                             echo "tag $newTagVersion created"
                         } else {
