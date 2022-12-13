@@ -38,7 +38,7 @@ pipeline {
                             
                             echo "tag id $lastTagCommitId"
                             echo "branch id $lastBranchCommitId"
-                            echo "precisa gerar nova TAG"
+                            echo "precisa gerar nova TAG. Tag atual: $lastTagValue"
                         } else {
                             echo "não precisa gerar nova TAG: $lastTagValue"
                         }
