@@ -42,7 +42,7 @@ pipeline {
                             echo "$minorVersionIndex"
                             lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex].toInteger() + 1
                             echo "$lastTagValueSplited"
-                            def newTagVersion = lastTagValueSplited.join("\\.")
+                            def newTagVersion = lastTagValueSplited.join(".")
                             echo "$newTagVersion"
                             
                             echo "tag id $lastTagCommitId"
