@@ -17,6 +17,10 @@ pipeline {
                     applicationScripts = load "./$REPOSITORY/Jenkinsfile"
                     env.PWD = "./$REPOSITORY"
                 }
+
+                dir(env.PWD) {
+                    sh 'git tag'
+                }
             }
         }
 
@@ -31,6 +35,10 @@ pipeline {
                 script {
                     newApplicationVersion = applicationScripts.createTag()
                     echo "tag $newApplicationVersion created"
+                }
+
+                dir(env.PWD) {
+                    sh 'git tag'
                 }
             }
         }
