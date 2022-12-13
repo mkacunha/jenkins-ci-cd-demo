@@ -2,6 +2,10 @@ def applicationScripts
 def newApplicationVersion
 def newDockerImgage
 
+def getLastTagValue() {
+    return sh(script:"git describe --tags $lastTagCommitId", returnStdout: true).toString().trim()
+}
+
 pipeline {
     agent any
 
@@ -32,7 +36,7 @@ pipeline {
                     script {                            
                         def lastTagCommitId = sh(script: 'git rev-list --tags --max-count=1', returnStdout: true)
                         def lastBranchCommitId = sh(script:'git rev-parse HEAD', returnStdout: true)
-                        def lastTagValue = sh(script:"git describe --tags $lastTagCommitId", returnStdout: true).toString().trim()
+                        def lastTagValue = getLastTagValue()
                         
                         if (lastTagCommitId != lastBranchCommitId) {
                             def lastTagValueSplited = lastTagValue.split("\\.")
@@ -53,6 +57,83 @@ pipeline {
                         sh "git push origin --tags"
                     }
                 }
+            }
+        }
+
+        stage('build docker image') {
+            steps {
+                script {
+                    newDockerImgage = applicationScripts.buildDockerImage(getLastTagValue())
+                    echo "docker image $newDockerImgage builded"
+                }
+                echo "docker push $newDockerImgage"
+            }
+        }
+
+        stage('deploy QA') {
+            steps {
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
+            }
+        }
+
+        stage('QA acceptance test') {
+            steps {
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("QA")
+
+                    if (testsResult) {
+                        echo "successfully executed QA acceptance test"
+                    } else {
+                        error "error running QA acceptance tests"
+                    }
+                    
+                }
+            }
+        }
+
+        stage('deploy SANDBOX') {
+            steps {
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
+            }
+        }
+
+        stage('SANDBOX acceptance test') {
+            steps {
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("SANDBOX")
+
+                    if (testsResult) {
+                        echo "successfully executed SANDBOX acceptance test"
+                    } else {
+                        error "error running SANDBOX acceptance tests"
+                    }                    
+                }
+            }
+        }
+
+        stage('deploy PROD') {
+            steps {
+                echo "call ecs-deploy or ecs-srvice-deploy with $newDockerImgage"
+            }
+        }
+
+        stage('PROD acceptance test') {
+            steps {
+                script {
+                    def testsResult = applicationScripts.runAcceptanceTest("PROD")
+
+                    if (testsResult) {
+                        echo "successfully executed PROD acceptance test"
+                    } else {
+                        error "error running PROD acceptance tests"
+                    }                    
+                }
+            }
+        }
+
+        stage('complete pull request') {
+            steps {
+                echo 'foi'
             }
         }
     }
