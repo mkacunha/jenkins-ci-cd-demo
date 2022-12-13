@@ -40,7 +40,7 @@ pipeline {
                             echo "$lastTagValueSplited"
                             def minorVersionIndex = lastTagValueSplited.size() - 1
                             echo "$minorVersionIndex"
-                            lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex] + 1
+                            lastTagValueSplited[minorVersionIndex] = lastTagValueSplited[minorVersionIndex].toInteger() + 1
                             echo "$lastTagValueSplited"
                             def newTagVersion = lastTagValueSplited.toString() 
                             echo "$newTagVersion"
