@@ -10,7 +10,7 @@ pipeline {
         stage("main") {
 
             options {
-                lock(resource:"${env.AGENT}", skipIfLocked: true)
+                lock(timeout: 4, onTimeout:'abort', resource:"${env.AGENT}", skipIfLocked: true)
             }
 
             stages {
