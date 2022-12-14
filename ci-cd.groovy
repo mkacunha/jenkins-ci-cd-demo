@@ -5,10 +5,6 @@ def newDockerImgage
 pipeline {
     agent any
 
-    options {
-        lock resource: "${env.AGENT}"
-    }
-
     stages {
         stage("clone") {            
             steps {
