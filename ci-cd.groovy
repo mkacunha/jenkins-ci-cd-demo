@@ -9,7 +9,7 @@ pipeline {
         stage('clone') {
             
             steps {
-                lock('$AGENT') {
+                lock("$AGENT") {
                     withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'rm -rf gradle-release-tag-demo'
                         sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
