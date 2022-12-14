@@ -9,18 +9,13 @@ pipeline {
     stages {
         stage("clone") {            
             steps {
-                script {
-                    label = "$AGENT"
-                    lock(resource: label, variable: "resource_name") {
-                        echo "Locked resource name is ${env.resource_name}"
+                lock(resource: "test", variable: "resource_name") {
+                    withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'rm -rf gradle-release-tag-demo'
+                        sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                     }
                 }
-
-                withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'rm -rf gradle-release-tag-demo'
-                    sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
-                }
-                
+                                
                 script {
                     applicationScripts = load "./$REPOSITORY/Jenkinsfile"
                     env.PWD = "./$REPOSITORY"
