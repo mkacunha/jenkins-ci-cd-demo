@@ -8,8 +8,10 @@ pipeline {
 
     stages {
         stage('lock') {
-            lock('myResource') {
-                echo "locked build"
+            steps {
+                lock('myResource') {
+                    echo "locked build"
+                }
             }
         }
 
