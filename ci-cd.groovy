@@ -7,13 +7,17 @@ pipeline {
     agent any
 
     stages {
+        stage('lock') {
+            lock('myResource') {
+                echo "locked build"
+            }
+        }
+
         stage("clone") {            
             steps {
-                lock(resource: "test", variable: "resource_name") {
-                    withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'rm -rf gradle-release-tag-demo'
-                        sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
-                    }
+                withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'rm -rf gradle-release-tag-demo'
+                    sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
                 }
                                 
                 script {
