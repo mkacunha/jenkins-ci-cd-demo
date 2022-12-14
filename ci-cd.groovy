@@ -10,7 +10,7 @@ pipeline {
         stage("main") {
 
             options {
-                lock("${env.AGENT}")
+                lock(resource:"${env.AGENT}", skipIfLocked: true)
             }
 
             stages {
