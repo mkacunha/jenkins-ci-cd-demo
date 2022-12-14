@@ -6,7 +6,7 @@ pipeline {
     agent any
 
     stages {
-        stage('clone') {
+        stage("$AGENT") {
             
             steps {
                 lock("$AGENT") {
