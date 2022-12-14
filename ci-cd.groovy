@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     label = "$AGENT"
-                    lock(label: label, variable: "resource_name") {
+                    lock(resource: label, variable: "resource_name") {
                         echo "Locked resource name is ${env.resource_name}"
                     }
                 }
