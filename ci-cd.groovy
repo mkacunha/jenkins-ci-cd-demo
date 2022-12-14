@@ -1,6 +1,7 @@
 def applicationScripts
 def newApplicationVersion
 def newDockerImgage
+def label
 
 pipeline {
     agent any
@@ -9,7 +10,7 @@ pipeline {
         stage("clone") {            
             steps {
                 script {
-                    def label = "$AGENT"
+                    label = "$AGENT"
                     lock(label: label, variable: "resource_name") {
                         echo "Locked resource name is ${env.resource_name}"
                     }
