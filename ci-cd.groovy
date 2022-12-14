@@ -11,6 +11,7 @@ pipeline {
             steps {
                 lock('myResource') {
                     echo "locked build"
+                    sleep(60)
                 }
             }
         }
