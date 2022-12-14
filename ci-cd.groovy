@@ -7,12 +7,15 @@ pipeline {
 
     stages {
         stage('clone') {
+            
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'rm -rf gradle-release-tag-demo'
-                    sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
+                lock('my-resource-name') {
+                    withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'rm -rf gradle-release-tag-demo'
+                        sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
+                    }
                 }
-
+                
                 script {
                     applicationScripts = load "./$REPOSITORY/Jenkinsfile"
                     env.PWD = "./$REPOSITORY"
