@@ -12,6 +12,13 @@ pipeline {
     stages {
         stage("clone") {            
             steps {
+                script {
+                    def label = "$AGENT"
+                    lock(label: label, variable: "resource_name") {
+                        echo "Locked resource name is ${env.resource_name}"
+                    }
+                }
+
                 withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'rm -rf gradle-release-tag-demo'
                     sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
