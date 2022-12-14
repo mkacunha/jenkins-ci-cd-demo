@@ -6,9 +6,9 @@ pipeline {
     agent any
 
     stages {
-        stage("${env.AGENT}") {
-            
+        stage("clone") {            
             steps {
+                echo "${env.AGENT}"
                 lock("${env.AGENT}") {
                     withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'rm -rf gradle-release-tag-demo'
