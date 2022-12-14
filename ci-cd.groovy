@@ -6,7 +6,7 @@ pipeline {
     agent any
 
     options {
-        lock resource: 'shared_resource_lock'
+        lock resource: "${env.AGENT}"
     }
 
     stages {
