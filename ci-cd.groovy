@@ -19,7 +19,7 @@ pipeline {
                         message "Versão 1.0.0 já está rodando em abiente de QA, o que deseja fazer?"                     
                     }
 
-                    step {
+                    steps {
                         echo "suhaushuahsahuhsauhauhusa"
                     }
                 }
