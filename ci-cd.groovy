@@ -17,13 +17,13 @@ pipeline {
                 stage('Example') {
                     input {
                         message "Versão 1.0.0 já está rodando em abiente de QA, o que deseja fazer?"
-                        parameters {
-                            choice(name: 'STRATEGY', choices: 'SKIP\nDEPLOY', description: 'SKIP/DEPLOY')
-                        }
+                        // parameters {
+                        //     choice(name: 'STRATEGY', choices: 'SKIP\nDEPLOY', description: 'SKIP/DEPLOY')
+                        // }
                     }
-                    steps {
-                        echo "${STRATEGY}"
-                    }
+                    // steps {
+                    //     echo "${STRATEGY}"
+                    // }
                 }
 
                 stage("clone") {            
