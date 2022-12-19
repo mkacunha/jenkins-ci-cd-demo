@@ -69,6 +69,7 @@ pipeline {
                 stage('build docker image') {
                     steps {
                         script {
+                            sh (script: 'docker manifest inspect ubuntu:latest')
                             def imageExists = sh (script: 'if docker manifest inspect ubuntu:latest; then echo true; else echo false; fi | tail -1', returnStdout: true).trim().toBoolean()
                             echo "---------> $imageExists"
                             if (imageExists) {
