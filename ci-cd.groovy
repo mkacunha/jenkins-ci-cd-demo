@@ -16,11 +16,14 @@ pipeline {
             stages {
                 stage("clone") {            
                     steps {
-                        withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                            def result = sh(script: "curl --location --request GET 'https://api.github.com/repos/$ORGANIZATION/$REPOSITORY/pulls?state=open&head={organization}:$BRANCH' --header 'Accept: application/vnd.github+json' header 'Authorization: Bearer $PASSWORD' header 'X-GitHub-Api-Version: 2022-11-28'", returnStdout: true)
-                            echo "resultado ----> $result"
+                        withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {                            
                             sh 'rm -rf gradle-release-tag-demo'
                             sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
+
+                            script {
+                                def result = sh(script: "curl --location --request GET 'https://api.github.com/repos/$ORGANIZATION/$REPOSITORY/pulls?state=open&head={organization}:$BRANCH' --header 'Accept: application/vnd.github+json' header 'Authorization: Bearer $PASSWORD' header 'X-GitHub-Api-Version: 2022-11-28'", returnStdout: true)
+                                echo "resultado ----> $result"
+                            }
                         }
                                         
                         script {
