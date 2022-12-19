@@ -20,14 +20,14 @@ pipeline {
                         ok "Yes, we should."
                         submitter "alice,bob"
                         parameters {
-                            string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                            choice(name: 'STRATEGY', choices: 'SKIP\nDEPLOY', description: 'Versão 1.0.0 já?')
                         }
                     }
                     steps {
                         echo "Hello, ${PERSON}, nice to meet you."
                     }
                 }
-                
+
                 stage("clone") {            
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
