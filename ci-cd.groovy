@@ -14,16 +14,6 @@ pipeline {
             }
 
             stages {
-                stage('Example') {
-                    input {
-                        message "Versão 1.0.0 já está rodando em abiente de QA, o que deseja fazer?"                     
-                    }
-
-                    steps {
-                        echo "suhaushuahsahuhsauhauhusa"
-                    }
-                }
-
                 stage("clone") {            
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -79,10 +69,16 @@ pipeline {
                 stage('build docker image') {
                     steps {
                         script {
-                            newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
-                            echo "docker image $newDockerImgage builded"
+                            def imageExists = sh ("if docker manifest inspect ubuntu:latest; then echo true; else echo false; fi | tail -1", returnStdout: true)
+
+                            if (imageExists) {
+                                echo "docker image $newDockerImgage already exists"
+                            } else {
+                                newDockerImgage = applicationScripts.buildDockerImage(newApplicationVersion)
+                                echo "docker image $newDockerImgage builded"
+                                echo "docker push $newDockerImgage"
+                            }   
                         }
-                        echo "docker push $newDockerImgage"
                     }
                 }
 
