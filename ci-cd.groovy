@@ -16,11 +16,9 @@ pipeline {
             stages {
                 stage('Example') {
                     input {
-                        message "Should we continue?"
-                        ok "Yes, we should."
-                        submitter "alice,bob"
+                        message "Versão 1.0.0 já está rodando em abiente de QA, o que deseja fazer?"
                         parameters {
-                            choice(name: 'STRATEGY', choices: 'SKIP\nDEPLOY', description: 'Versão 1.0.0 já?')
+                            choice(name: 'STRATEGY', choices: 'SKIP\nDEPLOY', description: 'SKIP/DEPLOY')
                         }
                     }
                     steps {
