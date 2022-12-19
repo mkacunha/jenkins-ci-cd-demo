@@ -70,7 +70,7 @@ pipeline {
                     steps {
                         script {
                             def imageExists = sh (script: 'if docker manifest inspect ubuntu:notfound; then echo true; else echo false; fi | tail -1', returnStdout: true)
-
+                            echo "---------> $imageExists"
                             if (imageExists) {
                                 echo "docker image $newApplicationVersion already exists"
                             } else {
