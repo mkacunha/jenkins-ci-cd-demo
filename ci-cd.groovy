@@ -13,21 +13,21 @@ pipeline {
                 lock(resource:"${env.AGENT}", skipIfLocked: true)
             }
 
-            stage('Example') {
-                input {
-                    message "Should we continue?"
-                    ok "Yes, we should."
-                    submitter "alice,bob"
-                    parameters {
-                        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+            stages {
+                stage('Example') {
+                    input {
+                        message "Should we continue?"
+                        ok "Yes, we should."
+                        submitter "alice,bob"
+                        parameters {
+                            string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                        }
+                    }
+                    steps {
+                        echo "Hello, ${PERSON}, nice to meet you."
                     }
                 }
-                steps {
-                    echo "Hello, ${PERSON}, nice to meet you."
-                }
-            }
-
-            stages {
+                
                 stage("clone") {            
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'github-mkacunha',  usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
