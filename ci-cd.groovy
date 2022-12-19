@@ -21,7 +21,7 @@ pipeline {
                             sh 'git clone --branch $BRANCH --single-branch https://$USERNAME:$PASSWORD@github.com/$ORGANIZATION/$REPOSITORY.git $REPOSITORY'
 
                             script {
-                                def result = sh(script: "curl --location --request GET 'https://api.github.com/repos/$ORGANIZATION/$REPOSITORY/pulls?state=open&head=$ORGANIZATION:$BRANCH' --header 'Accept: application/vnd.github+json' header 'Authorization: Bearer $PASSWORD' header 'X-GitHub-Api-Version: 2022-11-28'", returnStdout: true)
+                                def result = sh(script: "curl --location --request GET 'https://api.github.com/repos/$ORGANIZATION/$REPOSITORY/pulls?state=open&head=$ORGANIZATION:$BRANCH' -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer $PASSWORD' -H 'X-GitHub-Api-Version: 2022-11-28'", returnStdout: true)
                                 echo "resultado ----> $result"
                             }
                         }
